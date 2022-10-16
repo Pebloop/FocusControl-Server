@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "name": "focuscontrolserver",
+  "version": "1.0.0",
+  "description": "Server for FocusControl, the very aggressive focus software",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pebloop/FocusControlServer.git"
+  },
+  "author": "pebloop",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pebloop/FocusControlServer/issues"
+  },
+  "homepage": "https://github.com/Pebloop/FocusControlServer#readme"
+}
