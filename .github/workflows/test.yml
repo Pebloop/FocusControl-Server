@@ -9,7 +9,8 @@ on:
 
 env:
   TAG: "test"
-  IMAGE_NAME: "focus-control-server-test"
+  IMAGE_NAME: "focus-control-server"
+  IMAGE_NAME_TEST: "focus-control-server-test"
   CONTAINER_NAME: "focus-control-server-test"
   PORT: "8081"
 
@@ -19,26 +20,36 @@ jobs:
     runs-on: test
     steps:
       - uses: actions/checkout@v3
-
       - name: build
         run: |
           docker build --pull -t $IMAGE_NAME --no-cache .
           
-  deploy:
+  stop:
     runs-on: test
+    needs: [build]
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v3
-      
       - name: stop
-        run: echo "Not yet implemented"
-        
+        run: |
+          docker stop $CONTAINER_NAME
+          docker rm $CONTAINER_NAME
+    
+          
+  deploy:
+    runs-on: test
+    needs: [stop]
+    steps:
+      - uses: actions/checkout@v3
       - name: deploy
-        run: echo "Not yet implemented"
+        run: |
+          docker tag $IMAGE_NAME $IMAGE_NAME_TEST
+          docker run -d --name=$CONTAINER_NAME -p $PORT:8080 $IMAGE_NAME_TEST
         
   clean:
     runs-on: test
+    needs: [deploy]
     steps:
       - uses: actions/checkout@v3
-      
       - name: clean
-        run: echo "Not yet implemented"
+        run: docker system prune -a -f
