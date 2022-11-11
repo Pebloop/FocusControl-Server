@@ -9,8 +9,8 @@ on:
 
 env:
   TAG: "test"
-  IMAGE_NAME: "focus-control-server-$TAG"
-  CONTAINER_NAME: "focus-control-server-$TAG"
+  IMAGE_NAME: focus-control-server-$TAG
+  CONTAINER_NAME: focus-control-server-$TAG
   PORT: "8081"
 
 jobs:
