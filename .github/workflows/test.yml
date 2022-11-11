@@ -1,0 +1,44 @@
+name: Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  TAG: "test"
+  IMAGE_NAME: "focus-control-server-$TAG"
+  CONTAINER_NAME: "focus-control-server-$TAG"
+  PORT: "8081"
+
+jobs:
+
+  build:
+    runs-on: test
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: build
+        run: |
+          docker build --pull -t $IMAGE_NAME --no-cache .
+          
+  deploy:
+    runs-on: test
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: stop
+        run: echo "Not yet implemented"
+        
+      - name: deploy
+        run: echo "Not yet implemented"
+        
+  clean:
+    runs-on: test
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: clean
+        run: echo "Not yet implemented"
