@@ -10,8 +10,6 @@ COPY package*.json ./
 
 RUN npm i -g typescript
 RUN npm i
-RUN tsc
-RUN npm i
 # If you are building your code for production
 # RUN npm ci --only=production
 
