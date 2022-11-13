@@ -31,4 +31,5 @@ docker run -d --name="focus-server-$TAG" -p 8080:8080/tcp "focus-server-$TAG"
 # Servers access
 
 test : 51.75.194.95:8081
+
 prod : 51.75.194.95:8080
