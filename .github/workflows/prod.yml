@@ -1,0 +1,55 @@
+name: Prod
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  TAG: "prod"
+  IMAGE_NAME: "focus-control-server"
+  IMAGE_NAME_PROD: "focus-control-server-prod"
+  CONTAINER_NAME: "focus-control-server-prod"
+  PORT: "8080"
+
+jobs:
+
+  build:
+    runs-on: prod
+    steps:
+      - uses: actions/checkout@v3
+      - name: build
+        run: |
+          docker build --pull -t $IMAGE_NAME --no-cache .
+          
+  stop:
+    runs-on: prod
+    needs: [build]
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+      - name: stop
+        run: |
+          docker stop $CONTAINER_NAME
+          docker rm $CONTAINER_NAME
+    
+          
+  deploy:
+    runs-on: prod
+    needs: [stop]
+    steps:
+      - uses: actions/checkout@v3
+      - name: deploy
+        run: |
+          docker tag $IMAGE_NAME $IMAGE_NAME_PROD
+          docker run -d --name=$CONTAINER_NAME -p $PORT:8080 $IMAGE_NAME_PROD
+        
+  clean:
+    runs-on: prod
+    needs: [deploy]
+    steps:
+      - uses: actions/checkout@v3
+      - name: clean
+        run: docker system prune -a -f
